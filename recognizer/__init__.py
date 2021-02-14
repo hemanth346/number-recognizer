@@ -1,0 +1,16 @@
+import torch 
+CUDA = torch.cuda.is_available()
+# CUDA = False
+device = torch.device("cuda" if CUDA else "cpu")
+
+# if setuptools fails
+# import os.path as osp
+# import sys
+# def add_path(path):
+#     if path not in sys.path:
+#         sys.path.insert(0, path)
+
+
+# this_dir = osp.dirname(__file__)
+# lib_path = osp.join(this_dir, '..')
+# add_path(lib_path)
