@@ -7,6 +7,7 @@ from matplotlib import pyplot as plt
 
 import argparse
 import csv
+import os
 
 from recognizer import device
 from recognizer.processor import preprocess
@@ -49,6 +50,8 @@ def load_model(path):
 
 def detect_number(filename, model, save=False, device=device):
     # grayImage = cv2.imread(filename, cv2.IMREAD_GRAYSCALE) # read as gray scale
+    if not os.path.isfile(filename):
+        raise ValueError('Find not found')
     image = cv2.imread(filename)
     grayImage = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
     bboxes = preprocess.detect_blobs(grayImage)
