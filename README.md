@@ -10,8 +10,9 @@ Task is to build an application that recognizes hand written telephone numbers a
 1. The model is created with the assumption that **only 1 mobile number** will be in a frame of white sheet.
     - Complexity of the expected input data(i.e. Handwritten numbers) is not known, hence used simplest as POC.
   
-2. Used ML model used only for digit classification, rather than using sequence or object detection model keeping edge device in mind
+2. Deep learning model used only for digit classification. Object detection or sequence model will be heavy.
     - Heavylifting to be done by data processing pipelines using OpenCV.
+
 3. Using flatfile(csv) as my database
 
 
@@ -59,7 +60,7 @@ Two network architectures are made both achieving test accuracy of more than 99%
 - **Network 1 : 7,758 Parameters**
 
 <!-- abvdyl -->
-Reached 99% test accuracy in less than 15 epochs. Since the model is very light light, the performance on real word data is not great.
+Reached 99% test accuracy in less than 15 epochs. Since the model is very light, the performance on real word data is not great.
 
 
 [Colab Link(GPU)](https://colab.research.google.com/drive/1P2gTPNCk7QAoopsc_1dMaJkmnPdS-zGn?usp=sharing) - With class probability visualization
@@ -71,7 +72,7 @@ Reached 99% test accuracy in less than 15 epochs. Since the model is very light 
   - less than _30 seconds_ on Tesla T4 16G GPU with _64 batch_size_ and 
   - around _120 seconds_ on CPU with _32 batch_size_ 
   
-- Saved model is less than 100kB
+- Saved model is around 50kB
 
 
 ```
@@ -120,11 +121,12 @@ Estimated Total Size (MB): 0.64
 ----------------------------------------------------------------
 ```
 
-- **Network 2**
+- **Network 2 13,808 Parameters**
    
 <!-- S10 -->
-Increased parameter count by almost 100%, still network has to have more params to generalize better
 Reached 99.5% test accuracy in 20 epochs with ~14k parameters 
+
+Increased parameter count by almost 100%, still network has to have more params to generalize better
 
 
 [Colab Link(CPU)](https://colab.research.google.com/drive/10uFBIIWZ4DdQoCGnY0_K6S67zqJtBEDV?usp=sharing)
@@ -135,7 +137,7 @@ Reached 99.5% test accuracy in 20 epochs with ~14k parameters
   - around _30 seconds_ on Tesla T4 16G GPU with _64 batch_size_ and 
   - around _120 seconds_ on CPU with _32 batch_size_ 
   
-- Saved model is less than 100kB
+- Saved model is around 75kB
 
 ```
   ----------------------------------------------------------------
@@ -185,14 +187,14 @@ Estimated Total Size (MB): 1.12
 
 
 ## **Limitations**:
-  - Model has to classify the image into one of the 10 labels. Unlike modern object detection models where weightage is given for no objectess as well.
+  - Model has to classify the image/ROI into one of the 10 labels, unlike modern object detection models where weightage is given for no object.
     
-  - The model doesn't account for the order takes all blobs in the image and predict some number for it. 
+  - The model doesn't account for the order, takes all blobs in the image and predict some number for it. 
     - High chances are false positives due to this
 
-  - Single ROI can contain multiple digits in it which will fail the model utterly
+  - Single ROI can contain multiple digits in it which will fail, since we are predicting single digit
 
-  - Current pipeline fails in many scenarios where the input image has lot of frames. Preprocessing pipeline has to be tuned based on requirements.
+  - Current pipeline fails in many scenarios where the input image has lot of noise. Preprocessing pipeline has to be tuned based on requirements.
 
 
 
@@ -238,5 +240,5 @@ Create and active your env, then
 
 > **_Please note:_**
 > - Evaluation/inference using python script - detect.py is not working, need more time to analyse the issue with packagings
->   - Inference on notebook is possible
+>   - Inference on notebook is possible. Please refer Colab link
 > 
